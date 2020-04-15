@@ -3,11 +3,11 @@
 
 
 <h3>Title:</h3>@Model.filmLista[0].Title
-<h3>Description:</h3>
+<h4>Description:</h4>
 @Model.filmLista[0].Description
-<h3>Category:</h3>@Model.filmLista[0].FilmCategory.FirstOrDefault().Category.Name
+<h4>Category:</h4>@Model.filmLista[0].FilmCategory.FirstOrDefault().Category.Name
 
-<h3>Actors:</h3>
+<h4>Actors:</h4>
 @foreach (var item in Model.filmLista[0].FilmActor)
 {
     <ul>
@@ -16,10 +16,10 @@
         </li>
     </ul>
 }
-<h3>Release Year:</h3>@Model.filmLista[0].ReleaseYear
-<h3>Rating:</h3>@Model.filmLista[0].Rating
-<h3>Length:</h3>@Model.filmLista[0].Length
-<h3>Special Features:</h3>@Model.filmLista[0].SpecialFeatures
-<h3>OG Languange:</h3>@Model.filmLista[0].OriginalLanguage
+<h4>Release Year:</h4>@Model.filmLista[0].ReleaseYear
+<h4>Rating:</h4>@Model.filmLista[0].Rating
+<h4>Length:</h4>@Model.filmLista[0].Length
+<h4>Special Features:</h4>@Model.filmLista[0].SpecialFeatures
+
 
 
