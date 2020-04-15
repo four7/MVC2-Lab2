@@ -1,0 +1,29 @@
+﻿@model MVC2_Lab2.ViewModels.MovieListViewModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Movies</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Id</th>
+            <th scope="col"><a asp-controller="Movie" asp-action="ShowMovies" asp-route-sortcolumn="namn" asp-route-sortorder="@( Model.SortOrder == "asc"  ? "desc" : "asc" )">Namn</a></th>
+            <th scope="col"><a asp-controller="Movie" asp-action="ShowMovies" asp-route-sortcolumn="datum" asp-route-sortorder="@( Model.SortOrder == "asc"  ? "desc" : "asc" )">Datum</a></th>
+            <th scope="col">Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var movie in Model.filmLista)
+        {
+            <tr>
+                <th scope="row">@movie.FilmId</th>
+                <td>@movie.Title</td>
+                <td>@movie.ReleaseYear</td>
+                <td><a asp-action="MovieDetails" asp-route-id="@movie.FilmId">View</a></td>
+            </tr>
+        }
+    </tbody>
+</table>

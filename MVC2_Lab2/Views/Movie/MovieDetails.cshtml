@@ -1,0 +1,25 @@
+﻿@model MVC2_Lab2.ViewModels.MovieListViewModel
+
+
+
+<h3>Title:</h3>@Model.filmLista[0].Title
+<h3>Description:</h3>
+@Model.filmLista[0].Description
+<h3>Category:</h3>@Model.filmLista[0].FilmCategory.FirstOrDefault().Category.Name
+
+<h3>Actors:</h3>
+@foreach (var item in Model.filmLista[0].FilmActor)
+{
+    <ul>
+        <li>
+            @item.Actor.FirstName @item.Actor.LastName
+        </li>
+    </ul>
+}
+<h3>Release Year:</h3>@Model.filmLista[0].ReleaseYear
+<h3>Rating:</h3>@Model.filmLista[0].Rating
+<h3>Length:</h3>@Model.filmLista[0].Length
+<h3>Special Features:</h3>@Model.filmLista[0].SpecialFeatures
+<h3>OG Languange:</h3>@Model.filmLista[0].OriginalLanguage
+
+
