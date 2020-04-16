@@ -2,6 +2,32 @@
 
 @{
     ViewData["Title"] = "Index";
+
+    string GetClickSortOrder(string columnName)
+    {
+        if (columnName == Model.SortColumn)
+        {
+            string o = "asc";
+            if (Model.SortOrder == "asc")
+            {
+                o = "desc";
+            }
+            return o;
+        }
+        else
+        {
+            return "asc";
+        }
+    }
+
+    void RenderSortIcon(string columnName)
+    {
+        if (columnName != Model.SortColumn)
+        {
+            return;
+        }
+        <i class="fa fa-fw fa-sort-@Model.SortOrder"></i>
+    }
 }
 
 <h1>Movies</h1>
@@ -9,21 +35,50 @@
 <table class="table">
     <thead>
         <tr>
-            <th scope="col">Id</th>
-            <th scope="col"><a asp-controller="Movie" asp-action="ShowMovies" asp-route-sortcolumn="namn" asp-route-sortorder="@( Model.SortOrder == "asc"  ? "desc" : "asc" )">Namn</a></th>
-            <th scope="col"><a asp-controller="Movie" asp-action="ShowMovies" asp-route-sortcolumn="datum" asp-route-sortorder="@( Model.SortOrder == "asc"  ? "desc" : "asc" )">Datum</a></th>
+            <th scope="col"><a asp-controller="Movie" asp-action="ShowMovies" asp-route-sortcolumn="id" asp-route-sortorder="@GetClickSortOrder("id")">ID@{ RenderSortIcon("id");}</a></th>
+            <th scope="col"><a asp-controller="Movie" asp-action="ShowMovies" asp-route-sortcolumn="namn" asp-route-sortorder="@GetClickSortOrder("namn")">Name @{ RenderSortIcon("namn"); }</a></th>
+            <th scope="col"><a asp-controller="Movie" asp-action="ShowMovies" asp-route-sortcolumn="datum" asp-route-sortorder="@GetClickSortOrder("datum")">Released  @{ RenderSortIcon("datum"); }</a></th>
             <th scope="col">Action</th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var movie in Model.filmLista)
+        @foreach (var movie in Model.Items)
         {
             <tr>
-                <th scope="row">@movie.FilmId</th>
-                <td>@movie.Title</td>
+                <th scope="row">@movie.MovieId</th>
+                <td>@movie.MovieName</td>
                 <td>@movie.ReleaseYear</td>
-                <td><a asp-action="MovieDetails" asp-route-id="@movie.FilmId">View</a></td>
+                <td><a asp-action="MovieDetails" asp-route-id="@movie.MovieId">View</a></td>
             </tr>
         }
     </tbody>
 </table>
+
+<ul class="pagination">
+    <li>
+        @if (Model.PagingViewModel.ShowPrevButton)
+        {
+            <a asp-controller="Movie" aria-label="Previous" class="align-items-center page-link" asp-action="ShowMovies" asp-route-sortcolumn="@Model.SortColumn" asp-route-sortorder="@Model.SortOrder" asp-route-page="@(Model.PagingViewModel.CurrentPage-1)"><span aria-hidden="true">&laquo;</span><span class="sr-only">Prev</span></a>
+
+        }
+    </li>
+
+    @for (var p = 1; p < Model.PagingViewModel.MaxPages; p++)
+    {
+        <li class="page-item"><a href="@Url.Action("ShowMovies", new { page = p })" class="page-link">@p</a></li>
+    }
+
+    <li>
+        @if (Model.PagingViewModel.ShowNextButton)
+        {
+            <a asp-controller="Movie" aria-label="Next" class="page-link" asp-action="ShowMovies" asp-route-sortcolumn="@Model.SortColumn" asp-route-sortorder="@Model.SortOrder" asp-route-page="@(Model.PagingViewModel.CurrentPage+1)"><span aria-hidden="true">&raquo;</span><span class="sr-only">Next</span></a>
+        }
+    </li>
+</ul>
+
+@Html.DropDownList("PageSize", new List<SelectListItem>
+        {
+            new SelectListItem{ Text="50", Value = "50" },
+            new SelectListItem{ Text="100", Value = "100" },
+            new SelectListItem{ Text="150", Value = "150" }
+        }, "Select Size")

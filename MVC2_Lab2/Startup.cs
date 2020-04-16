@@ -10,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using MVC2_Lab2.Models;
+using MVC2_Lab2.Service;
 
 namespace MVC2_Lab2
 {
@@ -28,6 +29,7 @@ namespace MVC2_Lab2
             services.AddDbContext<sakilaContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
+            services.AddTransient<IMovieRepository, MovieRepository>();
             services.AddControllersWithViews();
         }
 
